@@ -39,7 +39,7 @@
                             <a href="<?= 'edit.php?mahasiswa_id='.base64_encode($data['id']) ?>" title="Edit">
                                 <i class="icon-pencil btn-lg"></i>
                             </a>
-                            <a href="<?= 'delete.php?mahasiswa_id='.base64_encode($data['id']) ?>" onclick="return confirm('Are you sure you want to delete this item')" title="Hapus">
+                            <a href="<?= 'delete.php?mahasiswa_id='.base64_encode($data['id']) ?>" onclick="return confirm('Apakah anda yakin untuk menghapus data ini?')" title="Hapus">
                                 <i class="icon-trash btn-lg"></i>
                             </a>
                         </td>
