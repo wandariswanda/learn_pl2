@@ -36,10 +36,10 @@
                         <td><?= $data['nim'] ?></td>
                         <td><?= $data['nama'] ?></td>
                         <td>
-                            <a href="<?= 'edit.php?mahasiswa_id='.$data['id'] ?>" title="Edit">
+                            <a href="<?= 'edit.php?mahasiswa_id='.base64_encode($data['id']) ?>" title="Edit">
                                 <i class="icon-pencil btn-lg"></i>
                             </a>
-                            <a href="<?= 'delete.php?mahasiswa_id='.$data['id'] ?>" title="Hapus">
+                            <a href="<?= 'delete.php?mahasiswa_id='.base64_encode($data['id']) ?>" onclick="return confirm('Are you sure you want to delete this item')" title="Hapus">
                                 <i class="icon-trash btn-lg"></i>
                             </a>
                         </td>
