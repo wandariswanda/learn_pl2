@@ -3,10 +3,9 @@
     include 'koneksi.php';
     $db = new DbConnection();
     $conn = $db->getDbConnection();
-    $mahasiswa_id = $_GET['mahasiswa_id'];
+    $mahasiswa_id = base64_decode($_GET['mahasiswa_id']);
     $get_mahasiswa = mysqli_query($conn, "select * from mahasiswa where id='".$mahasiswa_id."'");
     $res_mahasiswa = mysqli_fetch_array($get_mahasiswa);
-
 
     if(ISSET($_POST['proses'])){
         $exec = false;
