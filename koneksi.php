@@ -10,5 +10,16 @@
             $result = mysqli_fetch_array($query);
             return $result;
         }
+
+        function csrf_token_validation($post_token, $session_token){
+            if(isset($post_token)){
+                if($_POST['csrf_token'] != $_SESSION['csrf_token']){
+                    echo '<div class="alert alert-danger" role="alert">
+                            Ada masalah pada CSRF token verifikasi, pergi ke halaman sebelumnya <a href="'.$_SERVER["HTTP_REFERER"].'" class="alert-link">Sebelumnya</a>.
+                            </div>'; 
+                    die();
+                }
+            }
+        }
     }
 ?>
