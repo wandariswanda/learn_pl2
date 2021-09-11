@@ -6,34 +6,27 @@
     $conn = $db->getDbConnection();
 
     if(ISSET($_POST['proses'])){
-        if(isset($_POST['csrf_token'])){
-            if($_POST['csrf_token'] == $_SESSION['csrf_token']){
-                $available_nim = $db->available_mahasiswa($_POST['npm']);
-                if($available_nim){
-                    echo '<div class="alert alert-primary" role="alert">
-                            NIM sudah terdaftar, kembali ke <a href="insert.php" class="alert-link">Sebelumnya</a>.
-                          </div>'; 
-                    die();
-                }else{
-                    $query = mysqli_query($conn, "insert into mahasiswa values(
-                        NULL,
-                        '".$_POST['npm']."',
-                        '".$_POST['name']."'
-                    )");
-            
-                    header('location:latihan.php');
-                }
-            } else {
-                echo "problem with csrf token verification";
-            }
+        $csrf_verification = $db->csrf_token_validation($_POST['csrf_token'], $_SESSION['csrf_token']); // verification csrf token
+        $available_nim = $db->available_mahasiswa($_POST['npm']); // check availeble data
+        if($available_nim){
+            echo '<div class="alert alert-primary" role="alert">
+                    NIM sudah terdaftar, kembali ke halaman <a href="insert.php" class="alert-link">Sebelumnya</a>.
+                    </div>'; 
+            die();
+        }else{
+            $query = mysqli_query($conn, "insert into mahasiswa values(
+                NULL,
+                '".$_POST['npm']."',
+                '".$_POST['name']."'
+            )");
+    
+            header('location:latihan.php');
         }
     }
 
     // Set Session
     $csrf_token = base64_encode(openssl_random_pseudo_bytes(32));
-    $csrf_token_time = time();
     $_SESSION['csrf_token'] = $csrf_token;
-    $_SESSION['$csrf_token_time'] = $csrf_token_time;
 ?>
 
 <head>
@@ -42,16 +35,16 @@
 </head>
 <body>
     <div class="container">
-        <h1>Input Mahasiswa</h1>
+        <h1>Input Data Mahasiswa</h1>
         <form action="" method="POST">
             <input type="text" name="csrf_token" value="<?= $csrf_token ?>">
             <div class="mb-3">
                 <label for="inputNPM" class="form-label">NIM</label>
-                <input type="text" name="npm" class="form-control" required id="inputNPM">
+                <input type="text" name="npm" class="form-control"  id="inputNPM">
             </div>
             <div class="mb-3">
                 <label for="inputName" class="form-label">Name</label>
-                <input type="text" name="name" class="form-control" required id="inputName">
+                <input type="text" name="name" class="form-control"  id="inputName">
             </div>
             <a class="btn btn-danger" href="latihan.php">Kembali</a>
             <button type="submit" name="proses" class="btn btn-primary">Simpan</button>
